@@ -174,7 +174,7 @@ aePlot <- function(formula, data=NULL, subset=NULL, na.action=na.retain,
 
   ned <- function(used) {
     sf <- sampleFrac(used, study=study)
-    structure(dNeedle(sf, study=study), table=kntr::kable(attr(sf, 'table')))
+    structure(dNeedle(sf, study=study), table=knitr::kable(attr(sf, 'table')))
   }
   extra <- function(x) c(x, '<br><br>', attr(x, 'table'))
 
