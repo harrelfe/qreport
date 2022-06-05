@@ -84,10 +84,11 @@ getqreportOption <- function(opts=NULL, study=' ') {
 #' @param n integer vector, named with \code{"enrolled","randomized"} and optionally also including treatment levels.
 #' @param nobsY a result of the the \code{nobsY} Hmisc function
 #' @param table set to \code{TRUE} to return as an attribute \code{"table"} a character string containing an HTML table showing the pertinent frequencies created from \code{n} and the \code{denom} option, and if \code{nobsY} is present, adding another table with response variable-specific counts.
+#' @param html set to \code{FALSE} to save the table as a data frame instead of html
 #' @param study character string with study ID
 #' @export
 
-sampleFrac <- function(n, nobsY=NULL, table=TRUE, study=' ') {
+sampleFrac <- function(n, nobsY=NULL, table=TRUE, study=' ', html=TRUE) {
   denom <- getqreportOption('denom', study=study)
   if(any(is.na(denom))) stop('denom must be defined with setqreportOption()')
   if(names(n)[1] != 'enrolled')
@@ -104,25 +105,29 @@ sampleFrac <- function(n, nobsY=NULL, table=TRUE, study=' ') {
   if(! table) return(f)
   tab <- data.frame(upFirst(names(n)), denom, n)
   size <- 54; border <- 1
-  tab <- html(tab, align=c('l', 'r', 'r'),
-              header=c('Category', 'N', 'Used'),
-              file=FALSE, size=size, border=border, rownames=FALSE)
-  tab <- unclass(tab)
+  if(html)
+    tab <- unclass(html(tab, align=c('l', 'r', 'r'),
+                header=c('Category', 'N', 'Used'),
+                file=FALSE, size=size, border=border, rownames=FALSE))
   if(length(nobsY)) {
     if(length(m <- nobsY$nobsg)) {
       m <- t(m)
       d <- cbind(Variable=rownames(m), as.data.frame(m))
-      tab2 <- html(d, align=c('l', rep('r', ncol(m))),
-                   file=FALSE, size=size, border=border, rownames=FALSE)
+      tab2 <-if(html)
+               unclass(html(d, align=c('l', rep('r', ncol(m))),
+                    file=FALSE, size=size, border=border, rownames=FALSE))
+      else d
     }
     else {
       m <- nobsY$nobs
       d <- data.frame(Variable=names(m), N=m)
-      tab2 <- html(d, align=c('l', 'r'),
-                   header=c('Variable', 'N'),
-                   file=FALSE, size=size, border=border, rownames=FALSE)
+      tab2 <- if(html)
+                unclass(html(d, align=c('l', 'r'),
+                     header=c('Variable', 'N'),
+                     file=FALSE, size=size, border=border, rownames=FALSE))
+      else d
     }
-    tab <- c(tab, unclass(tab2))
+    tab <- c(tab, tab2)
   }
   attr(f, 'table') <- tab
   f
