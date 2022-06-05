@@ -187,7 +187,7 @@ aePlot <- function(formula, data=NULL, subset=NULL, na.action=na.retain,
   makecolmarg(extra(ned(N)), type='cat')
   caps <- putQcap(head, scap=shortcap)
   ## May want to add 'fig-location: margin'
-  if(size == 'wide') caps <- c(caps, 'column: page-inset-left')
+  if(size == 'wide') caps <- c('column: page-inset-left', caps)
 
   .aePlot. <<- p
   k <- makecodechunk('.aePlot.', callout=caps)
