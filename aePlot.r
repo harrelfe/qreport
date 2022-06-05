@@ -18,8 +18,7 @@
 #' @param popts a list of additional options to pass to \code{dotchartpl}
 #' @param head character string.  Specifies initial text in the figure caption, otherwise a default is used.
 #' @param tail a character string to add to end of automatic caption
-#' @param h height of graph
-#' @param w width of graph
+#' @param size default is standard text body width.  Set to \code{"wide"} to render plot with \code{column: page-inset-left}.
 #' @author Frank Harrell
 #' @export
 #' @importFrom Formula Formula model.part
@@ -27,14 +26,16 @@
 #' # See test.Rnw in tests directory
 
 aePlot <- function(formula, data=NULL, subset=NULL, na.action=na.retain,
-                    exposure=NULL, expunit='',
-                    study=' ', refgroup=NULL,
-                    minincidence=0,
-                    conf.int=0.95,
-                    etype='adverse events',
-                    head=NULL, tail=NULL,
-                    h=6, w=7, popts=NULL) {
+                   exposure=NULL, expunit='',
+                   study=' ', refgroup=NULL,
+                   minincidence=0,
+                   conf.int=0.95,
+                   etype='adverse events',
+                   head=NULL, tail=NULL,
+                   size=c('regular', 'wide'),
+                   popts=NULL) {
 
+  size <- match.arg(size)
   popts <- c(popts, list(colors=getqreportOption('tx.col', study=study)))
 
   smaller2 <- function(x) paste0('<small><small>', x, '</small></small>')
@@ -186,6 +187,8 @@ aePlot <- function(formula, data=NULL, subset=NULL, na.action=na.retain,
   makecolmarg(extra(ned(N)), type='cat')
   caps <- putQcap(head, scap=shortcap)
   ## May want to add 'fig-location: margin'
+  if(size == 'wide') caps <- c(caps, 'column: page-inset-left')
+
   .aePlot. <<- p
   k <- makecodechunk('.aePlot.', callout=caps)
   cat(knitr::knit(text=k, quiet=TRUE))
