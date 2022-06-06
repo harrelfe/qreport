@@ -159,5 +159,5 @@ putQcap <- function(..., scap=NULL, label=NULL) {
   
   c(if(length(lcap))                paste0('fig-cap: ',    lcap),
     if(length(scap))                paste0('fig-subcap: ', scap),
-    if(! logical(label) && ! label) paste0('label: fig-', label))
+    if(! is.logical(label) && ! label) paste0('label: fig-', label))
 }
