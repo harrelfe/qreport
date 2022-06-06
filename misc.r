@@ -160,7 +160,7 @@ putQcap <- function(..., scap=NULL, label=NULL) {
   if(! length(lcap) && ! length(scap)) return('')
 
   a <- addCap(label, lcap, scap)
-  if(length(a$label)) {
-  c(paste0('label: fig-',  a$label),
-    paste0('fig-cap: ',    a$lcap ))
+  if(length(a$label))
+    c(paste0('label: fig-',  a$label),
+      paste0('fig-cap: ',    a$lcap ))
 }
