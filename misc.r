@@ -153,20 +153,14 @@ pdumpit <- function(x, txt=as.character(substitute(x))) {
 ## store scap if there is a label
 
 putQcap <- function(..., scap=NULL, label=NULL) {
+  if(! length(label)) stop('must provide label')
   lcap <- unlist(list(...))
   if(length(lcap)) lcap <- paste(lcap, collapse=' ')
   
   if(! length(lcap) && ! length(scap)) return('')
 
-  if(! length(label)) label <- knitr::opts_current$get('label')
-  nolab <- is.logical(label) && ! label
-
-  if(! nolab) {
-    if(! exists('.captions.')) .captions. <<- NULL
-    .captions. <<- rbind(.captions., data.frame(label, lcap, scap))
-    }
-  
-  c(if(! nolab)      paste0('label: fig-',  label),
-    if(length(lcap)) paste0('fig-cap: ',    lcap ),
-    if(length(scap)) paste0('fig-subcap: ', scap )  )
+  a <- addCap(label, lcap, scap)
+  if(length(a$label)) {
+  c(paste0('label: fig-',  a$label),
+    paste0('fig-cap: ',    a$lcap ))
 }
