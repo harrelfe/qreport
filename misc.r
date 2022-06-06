@@ -163,7 +163,7 @@ putQcap <- function(..., scap=NULL, label=NULL) {
 
   if(! nolab) {
     if(! exists('.captions.')) .captions. <<- NULL
-    .captions. <<- rbind(.captions., data.frame(lable, lcap, scap))
+    .captions. <<- rbind(.captions., data.frame(label, lcap, scap))
     }
   
   c(if(! nolab)      paste0('label: fig-',  label),
