@@ -156,8 +156,9 @@ putQcap <- function(..., scap=NULL, label=NULL) {
   if(! length(lcap) && ! length(scap)) return('')
 
   if(! length(label)) label <- knitr::opts_current$get('label')
+  nolab <- is.logical(label) && ! label
   
-  c(if(length(lcap))                paste0('fig-cap: ',    lcap),
-    if(length(scap))                paste0('fig-subcap: ', scap),
-    if(! is.logical(label) && ! label) paste0('label: fig-', label))
+  c(if(length(lcap)) paste0('fig-cap: ',    lcap),
+    if(length(scap)) paste0('fig-subcap: ', scap),
+    if(! nolab)      paste0('label: fig-', label))
 }
