@@ -153,7 +153,10 @@ pdumpit <- function(x, txt=as.character(substitute(x))) {
 ## store scap if there is a label
 
 putQcap <- function(..., scap=NULL, label=NULL) {
-  if(! length(label)) label <- knitr::opts_current$get('label')
+  if(! length(label)) {
+    label <- knitr::opts_current$get('label')
+    if(length(label)) label <- paste0('fig-', label)
+    }
   if(! length(label)) stop('must provide label')
   lcap <- unlist(list(...))
   if(length(lcap)) lcap <- paste(lcap, collapse=' ')
