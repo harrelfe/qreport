@@ -19,6 +19,7 @@
 #' @param head character string.  Specifies initial text in the figure caption, otherwise a default is used.
 #' @param tail a character string to add to end of automatic caption
 #' @param size default is standard text body width.  Set to \code{"wide"} to render plot with \code{column: page-inset-left}.
+#' @param label label for figure.  \code{fig-} is placed in front of this label.  Default uses the name of the code chunk.  If a label is defined by the time the graph is produced that label will be used instead of the code chunk.
 #' @author Frank Harrell
 #' @export
 #' @importFrom Formula Formula model.part
@@ -33,7 +34,7 @@ aePlot <- function(formula, data=NULL, subset=NULL, na.action=na.retain,
                    etype='adverse events',
                    head=NULL, tail=NULL,
                    size=c('regular', 'wide'),
-                   popts=NULL) {
+                   popts=NULL, label=NULL) {
 
   size <- match.arg(size)
   popts <- c(popts, list(colors=getqreportOption('tx.col', study=study)))
@@ -185,7 +186,7 @@ aePlot <- function(formula, data=NULL, subset=NULL, na.action=na.retain,
                   # N[2] out of original N[1] subjects
 
   makecolmarg(extra(ned(N)), type='cat')
-  caps <- putQcap(head, scap=shortcap)
+  caps <- putQcap(head, scap=shortcap, label=label)
   ## May want to add 'fig-location: margin'
   if(size == 'wide') caps <- c('column: page-inset-left', caps)
 

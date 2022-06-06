@@ -149,12 +149,15 @@ pdumpit <- function(x, txt=as.character(substitute(x))) {
 }
 
 
-putQcap <- function(..., scap=NULL) {
+putQcap <- function(..., scap=NULL, label=NULL) {
   lcap <- unlist(list(...))
   if(length(lcap)) lcap <- paste(lcap, collapse=' ')
   
   if(! length(lcap) && ! length(scap)) return('')
 
-  c(if(length(lcap)) paste0('fig-cap: ',    lcap),
-    if(length(scap)) paste0('fig-subcap: ', scap))
+  if(! length(label)) label <- knitr::opts_current$get('label')
+  
+  c(if(length(lcap))                paste0('fig-cap: ',    lcap),
+    if(length(scap))                paste0('fig-subcap: ', scap),
+    if(! logical(label) && ! label) paste0('label: fig-', label))
 }
