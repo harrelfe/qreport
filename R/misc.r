@@ -1,5 +1,3 @@
-utils::globalVariables(c('Freq', '.group.'))
-
 #' Set qreport Options
 #'
 #' @param study an optional study mnemonic (character string) needed when multiple studies are being analyzed (or when one study is divided into distinct strata)
@@ -16,8 +14,12 @@ utils::globalVariables(c('Freq', '.group.'))
 #'  \item{\code{alpha.f}:}{single numeric specifying alpha adjustment to be applied to all colors.  Default is 1 (no adjustment)}
 #'  \item{\code{denom}:}{named vector with overall sample sizes}
 #' }
-# See https://github.com/plotly/plotly.py/blob/master/plotly/colors.py#L83-L87
+#' See https://github.com/plotly/plotly.py/blob/master/plotly/colors.py#L83-L87
+#' @return no returned value, used to set `options()`
+#' @md
 #' @export
+#' @examples
+#' setqreportOption(tx.var='treatment', denom=c(enrolled=1000, randomized=800, a=398, b=402))
 setqreportOption <- function(..., study=' ') {
   hop     <- getOption('qreport')
   default <- if(length(hop)) hop[[study]]
@@ -58,15 +60,19 @@ setqreportOption <- function(..., study=' ') {
   invisible()
 }
 
-#'  
 #' Get qreport Options
 #'
 #' Get qreport options, assigning default values of unspecified options.
 #'
 #' @param opts character vector containing list of option names to retrieve.  If only one element, the result is a scalar, otherwise a list.  If \code{opts} is not specified, a list with all current option settings is returned.
 #' @param study character string specifying an optional study designation
+#' @return getching `qreport` options
 #' @export
-
+#' @examples
+#' \dontrun{
+#' getqreportOption('tx.var')
+#' }
+#' @md
 getqreportOption <- function(opts=NULL, study=' ') {
   hop <- getOption('qreport')
   if(! length(hop)) return(hop)
@@ -86,7 +92,11 @@ getqreportOption <- function(opts=NULL, study=' ') {
 #' @param table set to \code{TRUE} to return as an attribute \code{"table"} a character string containing an HTML table showing the pertinent frequencies created from \code{n} and the \code{denom} option, and if \code{nobsY} is present, adding another table with response variable-specific counts.
 #' @param study character string with study ID
 #' @export
-
+#' @return named vector of relative sample sizes with an attribute `table` with frequency counts
+#' @md
+#' @examples
+#' setqreportOption(tx.var='treatment', denom=c(enrolled=1000, randomized=800, a=398, b=402))
+#' sampleFrac(getqreportOption('denom'))
 sampleFrac <- function(n, nobsY=NULL, table=TRUE, study=' ') {
   denom <- getqreportOption('denom', study=study)
   if(any(is.na(denom))) stop('denom must be defined with setqreportOption()')
@@ -125,8 +135,11 @@ sampleFrac <- function(n, nobsY=NULL, table=TRUE, study=' ') {
 #'
 #' @param sf output of \code{sampleFrac}
 #' @param study character string specifying study ID
+#' @return a base64 representation of a png graphic, suitable for inclusion in html
 #' @export
-
+#' @examples
+#' setqreportOption(tx.var='treatment', denom=c(enrolled=1000, randomized=800, a=398, b=402))
+#' dNeedle(sampleFrac(getqreportOption('denom')))
 dNeedle <- function(sf, study=' ') {
   co <- getqreportOption(c('er.col', 'tx.col'), study=study)
   co <- c(co$er.col, co$tx.col)
@@ -140,6 +153,7 @@ dNeedle <- function(sf, study=' ') {
 ##' @param x input to `prn`
 ##' @param txt text label, defaults to name of `x` argument
 ##' @author Frank Harrell
+##' @return no result, used only for printing debugging information
 ##' @md
 pdumpit <- function(x, txt=as.character(substitute(x))) {
   fi <- .Options$dumpfile
@@ -151,7 +165,18 @@ pdumpit <- function(x, txt=as.character(substitute(x))) {
 
 ## fig-subcap does not do what we need so instead of issuing that,
 ## store scap if there is a label
-
+##' Create Quarto Figure Caption
+##'
+##' Creates a Quarto label and caption and uses `addCap()` to add to running list of figures
+##' @title putQcap
+##' @param ... one or more character strings to form the caption
+##' @param scap a character string subcaption
+##' @param label figure label
+##' @return string vector with YAML components `label`, `fig-cap`, `fig-scap`
+##' @author Frank Harrell
+##' @examples
+##' putQcap('First part of caption', 'second part', scap='subcaption', label='xx')
+##' @md
 putQcap <- function(..., scap=NULL, label=NULL) {
   if(! length(label)) {
     label <- knitr::opts_current$get('label')
@@ -166,5 +191,9 @@ putQcap <- function(..., scap=NULL, label=NULL) {
   a <- addCap(label, lcap, scap)
   if(length(a$label))
     c(paste0('label: ',   a$label),
-      paste0('fig-cap: "', a$cap, '"' ))
+      paste0('fig-cap: "', a$cap, '"' ),
+      if(length(a$scap)) paste0('fig-scap: "', a$scap, '"') )
 }
+
+utils::globalVariables(c('Freq', '.group.'))
+

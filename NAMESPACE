@@ -1,1 +1,16 @@
 exportPattern("^[[:alpha:]]+")
+importFrom(rms, lrm)
+importFrom(Formula, Formula, model.part)
+importFrom(viridis, viridis)
+import(Hmisc)
+import(data.table)
+importFrom(htmltools, HTML)
+importFrom(knitr, asis_output, opts_current, opts_chunk, kable, kables)
+import(ggplot2)
+importFrom("grDevices", "adjustcolor")
+importFrom("graphics", "par")
+importFrom("stats", "anova", "as.dendrogram", "as.formula",
+           "model.frame", "qnorm", "quantile", "terms")
+importFrom("utils", "browseURL", "capture.output")
+
+

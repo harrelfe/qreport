@@ -4,6 +4,8 @@
 #' 
 #' Generates dot charts showing proportions of subjects having events (at any time).  Events can be categorized by a single level or by major and minor levels (e.g., body system and preferred terms).  When there are two treatments, half-width CLs of treatment differences are drawn, centered at the midpoint of the two proportions, and CLs for differences appear in hover text.   Input data must contain one record per event, with this record containing the event name.  If there is more than one event of a given type per subject, unique subject ID must be provided.  Denominators come from \code{qreport} options when computing event incidence proportions.  Instead, when a named vector \code{exposure} is specified, with names equal to the treatments, \code{exposure} is used as the denominator so that the exponential distribution hazard rate is computed, i.e., events per unit of exposure time.  When a subject has only one event of each type, the usual interpretation holds.  When a subject has multiple events, the estimate is events per person per time unit.  A character variable \code{expunit} defines the time units.   It is assumed that only randomized subjects are included in the dataset.  Whenever the number of events of a given type is zero for a group, the event frequency is changed to 0.5 so that one may compute confidence intervals on the log scale as well as hazard ratios.
 #'
+#' For an example with output see https://hbiostat.org/rflow/descript.html#adverse-event-chart
+#'
 #' @param formula a formula with one or two left hand variables (the first representing major categorization and the second minor), and 1-2 right hand variables.  One of the right hand variables may be enclosed in \code{id()} to indicate the presence of a unique subject ID.  The remaining variable is treatment.
 #' @param data input data frame
 #' @param subset subsetting criteria
@@ -20,6 +22,7 @@
 #' @param tail a character string to add to end of automatic caption
 #' @param size default is standard text body width.  Set to \code{"wide"} to render plot with \code{column: page-inset-left}.
 #' @param label label for figure.  \code{fig-} is placed in front of this label.  Default uses the name of the code chunk.  If a label is defined by the time the graph is produced that label will be used instead of the code chunk.
+#' @return no return value, called for knitting with \code{knitr}
 #' @author Frank Harrell
 #' @export
 #' @importFrom Formula Formula model.part
@@ -190,7 +193,8 @@ aePlot <- function(formula, data=NULL, subset=NULL, na.action=na.retain,
   ## May want to add 'fig-location: margin'
   if(size == 'wide') caps <- c('column: page-inset-left', caps)
 
-  .aePlot. <<- p
+  ge <- .GlobalEnv
+  assign('.aePlot.', p, envir=ge)
   k <- makecodechunk('.aePlot.', callout=caps)
   cat(knitr::knit(text=k, quiet=TRUE))
 }

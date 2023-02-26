@@ -1,11 +1,19 @@
-Package: qtest
+Package: qreport
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Statistical Reporting with 'Quarto'
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Date: 2023-02-25
+Author: Frank Harrell
+Maintainer: Frank Harrell <fh@fharrell.com>
+Description: Provides statistical components, tables, and graphs
+    that are useful in 'Quarto' and 'RMarkdown' reports and that produce 'Quarto'
+    elements for special formatting such as tabs and marginal notes and graphs.
+    Some of the functions produce entire report sections with tabs, e.g.,
+    the missing data report created by 'missChk()'.  Special clinical trial
+		graphics for adverse event reporting is also included.
+Depends: Hmisc (>= 4.8-0), data.table, ggplot2
+Imports: rms, Formula, viridis, knitr, htmltools
+License: GPL (>= 2)
 Encoding: UTF-8
-LazyData: true
+LazyLoad: Yes
+RoxygenNote: 7.1.2
