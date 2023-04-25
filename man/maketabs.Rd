@@ -39,7 +39,7 @@ Make Quarto Tabs
 Loops through a series of formulas or elements of a named list and outputs each element into
 a separate \code{Quarto} tab.  A \code{wide} argument is used to expand the width
 of the output outside the usual margins.  An \code{initblank} argument
-creates a first tab that is empty, or you can specify a formula \verb{} ~ \verb{}.  This allows one to show nothing
+creates a first tab that is empty, or you can specify a formula \verb{ } ~ \verb{ }.  This allows one to show nothing
 until one of the other tabs is clicked.  Multiple commands can be run in one chunk by including multiple right hand terms in a formula.  A chunk can be marked for producing raw output by including a term \code{raw} somewhere in the formula's right side.  If can be marked for constructing a label and caption by including \verb{+ caption(caption string, label string)}.  The tab number is appended to the label string, and if the label is not provided \code{baselabel} will be used.
 }
 \examples{

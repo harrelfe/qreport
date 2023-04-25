@@ -20,9 +20,12 @@ Function to time an expression, printing the result of \code{\link[base:system.t
 }
 \examples{
 \dontrun{
-g <- function(...){}  # define a function to runs slowly
+g <- function(...){}  # define a function to run slowly
 result <- timeMar(g())
 }
+}
+\seealso{
+\code{\link[=hooktime]{hooktime()}}
 }
 \author{
 Frank Harrell

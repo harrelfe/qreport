@@ -155,6 +155,7 @@ makecallout <- function(...) {
            if(! length(label)) '', label)
 
   oraw <- options('rawmarkup')  # used by Hmisc::rendHTML
+  on.exit(options(oraw))
   options(rawmarkup=TRUE)
   res <- if(is.character(x) && length(x) == 1 &&
             all(x %in% c('', ' ', "` `"))) ' '
@@ -164,7 +165,6 @@ makecallout <- function(...) {
            if(type == 'cat') x
          else
            makecodechunk(x, results=results)
-  options(oraw)
 
   k <- c(k, res, if(close) c(':::', ''))
   list(k=k, now=now, type=type)
@@ -528,7 +528,7 @@ scplot <- function(command, cap=NULL, scap=NULL, w=5, h=4, id=NULL) {
   .iscplot. <- .iscplot. + 1
 
   cname <- paste0(.idscplot., .iscplot.)
-  subsub <- if(length(.Options$scplot.subsub)) .Options$scplot.subsub else TRUE
+  subsub <- getOption('scplot.subsub', TRUE)
   label  <- Hmisc::putHcap(cap, scap=scap, subsub=subsub, file=FALSE)
 
   k <- c(paste0('\n\n```{r ', cname, ',results="asis",echo=FALSE,fig.width=',
@@ -1438,9 +1438,10 @@ rwrap <- function(x) paste0('\\`r ', x, '\\`')
 ##' @return invisibly, the result of the expression
 ##' @author Frank Harrell
 ##' @md
+##' @seealso [hooktime()]
 ##' @examples
 ##' \dontrun{
-##' g <- function(...){}  # define a function to runs slowly
+##' g <- function(...){}  # define a function to run slowly
 ##' result <- timeMar(g())
 ##' }
 timeMar <- function(x) {
@@ -1455,6 +1456,32 @@ timeMar <- function(x) {
   invisible(.res.)
 }
 
+##' Create knitr Hook for Reporting Execution Time for Chunks
+##'
+##' Creates a hook called `time` that can be activated by including `time=TRUE` in a chunk header.  The chunk's execution time in seconds will be printed in a very small html font at the end of the chunk's output.
+##' @title hooktime
+##' @param all set to `TRUE` to time every chunk without the need for `time=TRUE` in the chunk header
+##' @return nothing
+##' @seealso [this](https://bookdown.org/yihui/rmarkdown-cookbook/time-chunk.html) and [timeMar()]
+##' @author Frank Harrell
+##' @md
+hooktime <- function(all=FALSE) {
+  timeit <- function(before, options, envir) {
+    if(before) {
+      ge <- .GlobalEnv
+      assign('.start.time', Sys.time(), envir=ge)
+    }
+    else {
+      et <- paste0(round(as.numeric(Sys.time() - .start.time), 3), 's')
+      paste0('<span style="font-size:64%">Execution time: ', et, '</span>')
+    }
+  }
+  knitr::knit_hooks$set(time=timeit)
+  if(all) knitr::opts_chunk$set(time=TRUE)
+  invisible()
+}
+
+  
 ##' Apply Derived Variable Specifications
 ##' 
 ##' Function to apply derived variable specifications derv to a data table `d`.   Actions on `d` are done in place, so call the function using `runDeriveExpr(d, derv object)` and not by running `d <- runDeriveExpr(d, derv object)`.

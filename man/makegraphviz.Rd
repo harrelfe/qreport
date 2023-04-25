@@ -11,13 +11,15 @@ makegraphviz(.object., ..., file)
 
 \item{...}{name=value pairs that makes values replace \code{{{name}}} elements in the markup}
 
-\item{file}{name of file to hold \code{graphviz} markup after variable insertions.  Run this in Quarto using a chunk to looks like the following, which was for \code{file='graphviz.dot'}.\preformatted{```\{dot\}
+\item{file}{name of file to hold \code{graphviz} markup after variable insertions.  Run this in Quarto using a chunk to looks like the following, which was for \code{file='graphviz.dot'}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{```\{dot\}
 //| label: fig-doverview-graphviz
 //| fig-height: 4
 //| fig-cap: "Consort diagram produced with `graphviz` with detailed exclusion frequencies in a separate node"
 //| file: graphviz.dot
 ```
-}}
+}\if{html}{\out{</div>}}}
 }
 \value{
 nothing; used to \code{knitr::knit_expand()} graphviz markup

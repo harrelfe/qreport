@@ -5,9 +5,9 @@
 \title{spar}
 \usage{
 spar(
-  mar = if (!axes) c(2.25 + 0.6 + bot - 0.45 * multi, 2 * (las == 1) + 2.2 + left, 0.5
-    + top + 0.25 * multi, 0.5 + rt) else c(3.25 + 0.6 + bot - 0.45 * multi, 2 * (las ==
-    1) + 3.7 + left, 0.5 + top + 0.25 * multi, 0.5 + rt),
+  mar = if (!axes) c(2.25 + 0.6 + bot - 0.45 * multi, 2 * (las == 1) + 2.2 + left, 0.5 +
+    top + 0.25 * multi, 0.5 + rt) else c(3.25 + 0.6 + bot - 0.45 * multi, 2 * (las == 1)
+    + 3.7 + left, 0.5 + top + 0.25 * multi, 0.5 + rt),
   lwd = if (multi) 1 else 1.75,
   mgp = if (!axes) mgp = c(0.75, 0.1, 0) else if (multi) c(1.5 + 0.83, 0.365 - 0.03, 0)
     else c(2.4 - 0.4 + 0.83, 0.475 - 0.03, 0),
