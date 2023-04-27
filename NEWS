@@ -1,6 +1,6 @@
 Version 0.1-1
 
-- 2023-04-25
+- 2023-04-27
 - Added hooktime function to automatically time knitr chunks
 
 Version 0.1-0

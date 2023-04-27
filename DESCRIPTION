@@ -2,7 +2,7 @@ Package: qreport
 Type: Package
 Title: Statistical Reporting with 'Quarto'
 Version: 0.1.1
-Date: 2023-04-25
+Date: 2023-04-27
 Author: Frank Harrell
 Maintainer: Frank Harrell <fh@fharrell.com>
 Description: Provides statistical components, tables, and graphs
@@ -10,7 +10,7 @@ Description: Provides statistical components, tables, and graphs
     elements for special formatting such as tabs and marginal notes and graphs.
     Some of the functions produce entire report sections with tabs, e.g.,
     the missing data report created by missChk().  Functions for inserting
-		variables and tables inside `graphviz` and `mermaid` diagrams are included,
+		variables and tables inside 'graphviz' and 'mermaid' diagrams are included,
 		and so are special clinical trial graphics for adverse event reporting.
 Depends: Hmisc (>= 4.8-0), data.table, ggplot2
 Imports: rms, Formula, viridis, knitr, htmltools

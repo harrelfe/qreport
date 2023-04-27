@@ -1549,4 +1549,5 @@ utils::globalVariables(c('.captions.', 'Check', 'Values', 'variable', 'type',
                        '.fs.', '..use', '..vmiss', '.naclus.', '.seqmisstab.',
                        '.combplotp.', 'misschkanova.', 'misschkfit.',
                        'dsname', '.iscplot.', '.idscplot.', '.varclus.',
-                       '.varclus.gg.', '..v', '..use', '..vmiss'))
+                       '.varclus.gg.', '..v', '..use', '..vmiss',
+                       '.start.time'))
