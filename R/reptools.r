@@ -229,13 +229,14 @@ makecolmarg <- function(x, type=c('print', 'run', 'cat'), ...) {
 ##' Make Quarto Tabs
 ##'
 ##' Loops through a series of formulas or elements of a named list and outputs each element into
-##' a separate `Quarto` tab.  A `wide` argument is used to expand the width
+##' a separate `Quarto` tab.  `wide` and `column` arguments are used to expand the width
 ##' of the output outside the usual margins.  An `initblank` argument
 ##' creates a first tab that is empty, or you can specify a formula `` `` ~ `` ``.  This allows one to show nothing
 ##' until one of the other tabs is clicked.  Multiple commands can be run in one chunk by including multiple right hand terms in a formula.  A chunk can be marked for producing raw output by including a term `raw` somewhere in the formula's right side.  If can be marked for constructing a label and caption by including `+ caption(caption string, label string)`.  The tab number is appended to the label string, and if the label is not provided `baselabel` will be used.
 ##' @title maketabs
 ##' @param ... a series of formulas or a single named list.  For formulas the left side is the tab label (if multiple words or other illegal R expressions enclose in backticks) and the right hand side has expressions to evaluate during chunk execution, plus optional `raw`, `caption`, and `fig.size` options.
 ##' @param wide set to `TRUE` to use a Quarto `column-page` for the body of the text to allow it to use some of the margins
+##' @param cwidth specify a legal `Quarto` character string instead of `wide` to specify the width of the output.  These are defined [here](https://quarto.org/docs/authoring/article-layout.html#options-reference).  Commonly used values are `'column-screen-right'`, `'column-page-left'`, `'column-screen-inset-shaded'`. 
 ##' @param initblank set to `TRUE` to create a first tab that is blank so that the report will not initially show any tabbed material
 ##' @param baselabel a one-word character string that provides the base name of `label`s for tabs with figure captions.  The sequential tab number is appended to `baselabel` to obtain the full figure label.  If using formulas the figure label may instead come from `caption(.., label)`. If not specified it is taken to be the name of the current chunk with `fig-` prepended.
 ##' @param cap applies to the non-formula use of `maketabs` and is an integer vector specifying which tabs are to be given figure labels and captions.
@@ -248,7 +249,8 @@ makecolmarg <- function(x, type=c('print', 'run', 'cat'), ...) {
 ##' X <- list(A=data.frame(x=1:2), B=data.frame(x=1:2, y=11:12))
 ##' maketabs(X)
 # See https://stackoverflow.com/questions/42631642
-maketabs <- function(..., wide=FALSE, initblank=FALSE,
+maketabs <- function(..., wide=FALSE, cwidth=if(wide) 'column-page',
+                     initblank=FALSE,
                      baselabel=NULL, cap=NULL, basecap=NULL, debug=FALSE) {
 
   ## Put caption() and fig.size() in parent environment so they can
@@ -276,7 +278,8 @@ maketabs <- function(..., wide=FALSE, initblank=FALSE,
   if(length(baselabel) && ! grepl('^fig-', baselabel))
       baselabel <- paste0('fig-', baselabel)
   
-    yaml   <- paste0('.panel-tabset', if(wide) ' .column-page')
+  yaml   <- paste0('.panel-tabset',
+                   if(length(cwidth)) paste0(' .', cwidth))
 
     k <- c('', paste0('::: {', yaml, '}'), '')
     if(initblank) k <- c(k, '', '##   ', '')
@@ -1147,7 +1150,8 @@ dataOverview <- function(d, d2=NULL, id=NULL,
                    'observations\nNumber of NAs is color coded')
       lnna <- levels(data$.nna.)
       ggplotlyr(
-        if(any(trimws(as.character(data$.nna.)) != '0'))
+        if(any(trimws(as.character(data$.nna.)) != '0') &&
+           length(unique(as.integer(data$.nna.))) > 1)
           ggplot(data, aes(x=distinct, y=symmetry,
                        color=as.integer(.nna.), label=txt)) +
           scale_x_continuous(trans='sqrt', breaks=br, 

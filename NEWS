@@ -1,7 +1,9 @@
 Version 0.1-1
 
-- 2023-04-27
+- 2023-05-14
 - Added hooktime function to automatically time knitr chunks
+- Added cwidth argument to maketabs
+- Fixed bug dataOverview when number of NAs does not vary and continuous color scale gradient was attempted
 
 Version 0.1-0
 

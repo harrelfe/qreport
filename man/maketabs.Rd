@@ -7,6 +7,7 @@
 maketabs(
   ...,
   wide = FALSE,
+  cwidth = if (wide) "column-page",
   initblank = FALSE,
   baselabel = NULL,
   cap = NULL,
@@ -18,6 +19,8 @@ maketabs(
 \item{...}{a series of formulas or a single named list.  For formulas the left side is the tab label (if multiple words or other illegal R expressions enclose in backticks) and the right hand side has expressions to evaluate during chunk execution, plus optional \code{raw}, \code{caption}, and \code{fig.size} options.}
 
 \item{wide}{set to \code{TRUE} to use a Quarto \code{column-page} for the body of the text to allow it to use some of the margins}
+
+\item{cwidth}{specify a legal \code{Quarto} character string instead of \code{wide} to specify the width of the output.  These are defined \href{https://quarto.org/docs/authoring/article-layout.html#options-reference}{here}.  Commonly used values are \code{'column-screen-right'}, \code{'column-page-left'}, \code{'column-screen-inset-shaded'}.}
 
 \item{initblank}{set to \code{TRUE} to create a first tab that is blank so that the report will not initially show any tabbed material}
 
@@ -37,7 +40,7 @@ Make Quarto Tabs
 }
 \details{
 Loops through a series of formulas or elements of a named list and outputs each element into
-a separate \code{Quarto} tab.  A \code{wide} argument is used to expand the width
+a separate \code{Quarto} tab.  \code{wide} and \code{column} arguments are used to expand the width
 of the output outside the usual margins.  An \code{initblank} argument
 creates a first tab that is empty, or you can specify a formula \verb{ } ~ \verb{ }.  This allows one to show nothing
 until one of the other tabs is clicked.  Multiple commands can be run in one chunk by including multiple right hand terms in a formula.  A chunk can be marked for producing raw output by including a term \code{raw} somewhere in the formula's right side.  If can be marked for constructing a label and caption by including \verb{+ caption(caption string, label string)}.  The tab number is appended to the label string, and if the label is not provided \code{baselabel} will be used.
