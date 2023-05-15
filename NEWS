@@ -4,6 +4,7 @@ Version 0.1-1
 - Added hooktime function to automatically time knitr chunks
 - Added cwidth argument to maketabs
 - Fixed bug dataOverview when number of NAs does not vary and continuous color scale gradient was attempted
+- Added redundancy and imputation arguments to vClus
 
 Version 0.1-0
 

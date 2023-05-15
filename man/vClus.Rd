@@ -8,12 +8,16 @@ vClus(
   d,
   exclude = NULL,
   corrmatrix = FALSE,
+  redundancy = FALSE,
+  rexclude = NULL,
   fracmiss = 0.2,
   maxlevels = 10,
   minprev = 0.05,
+  imputed = NULL,
   horiz = FALSE,
   label = "fig-varclus",
-  print = TRUE
+  print = TRUE,
+  ...
 )
 }
 \arguments{
@@ -23,17 +27,25 @@ vClus(
 
 \item{corrmatrix}{set to \code{TRUE} to use \code{\link[Hmisc:plotCorrM]{Hmisc::plotCorrM()}} to depict a Spearman rank correlation matrix.}
 
+\item{redundancy}{set to \code{TRUE} to run \code{\link[Hmisc:redun]{Hmisc::redun()}} on non-excluded variables}
+
+\item{rexclude}{extra variables to exclude from redundancy analysis (formula or character vector)}
+
 \item{fracmiss}{if the fraction of \code{NA}s for a variable exceeds this the variable will not be included}
 
 \item{maxlevels}{if the maximum number of distinct values for a categorical variable exceeds this, the variable will be dropped}
 
 \item{minprev}{the minimum proportion of non-missing observations in a category for a binary variable to be retained, and the minimum relative frequency of a category before it will be combined with other small categories}
 
+\item{imputed}{an object created by \code{\link[Hmisc:aregImpute]{Hmisc::aregImpute()}} or \code{\link[mice:mice]{mice::mice()}} that contains information from multiple imputation that causes \code{vClus} to create all the filled-in datasets, stack them into one tall dataset, and pass that dataset to \code{\link[Hmisc:redun]{Hmisc::redun()}} so that \code{NA}s can be handled efficiently in redundancy analysis, i.e., without excluding partial records.  Variable clustering and the correlation matrix are already efficient because they use pairwise deletion of \code{NA}s.}
+
 \item{horiz}{set to \code{TRUE} to draw the dendrogram horizontally}
 
 \item{label}{figure label for Quarto}
 
 \item{print}{set to \code{FALSE} to not let \code{dataframeReduce} report details}
+
+\item{...}{other arguments passed to \code{\link[Hmisc:redun]{Hmisc::redun()}}}
 }
 \value{
 nothing; makes Quarto tabs

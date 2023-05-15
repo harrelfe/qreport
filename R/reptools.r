@@ -910,12 +910,16 @@ makegraphviz <- function(.object., ..., file) {
 ##' @param d a data frame or table
 ##' @param exclude formula or vector of character strings containing variables to exclude from analysis
 ##' @param corrmatrix set to `TRUE` to use [Hmisc::plotCorrM()] to depict a Spearman rank correlation matrix.
+##' @param redundancy set to `TRUE` to run [Hmisc::redun()] on non-excluded variables
+##' @param rexclude extra variables to exclude from redundancy analysis (formula or character vector)
 ##' @param fracmiss if the fraction of `NA`s for a variable exceeds this the variable will not be included
 ##' @param maxlevels if the maximum number of distinct values for a categorical variable exceeds this, the variable will be dropped
 ##' @param minprev the minimum proportion of non-missing observations in a category for a binary variable to be retained, and the minimum relative frequency of a category before it will be combined with other small categories
+##' @param imputed an object created by [Hmisc::aregImpute()] or [mice::mice()] that contains information from multiple imputation that causes `vClus` to create all the filled-in datasets, stack them into one tall dataset, and pass that dataset to [Hmisc::redun()] so that `NA`s can be handled efficiently in redundancy analysis, i.e., without excluding partial records.  Variable clustering and the correlation matrix are already efficient because they use pairwise deletion of `NA`s.
 ##' @param horiz set to `TRUE` to draw the dendrogram horizontally
 ##' @param label figure label for Quarto
 ##' @param print set to `FALSE` to not let `dataframeReduce` report details
+##' @param ... other arguments passed to [Hmisc::redun()]
 ##' @return nothing; makes Quarto tabs
 ##' @seealso [Hmisc::varclus()], [Hmisc::plotCorrM()], [Hmisc::dataframeReduce()]
 ##' @author Frank Harrell
@@ -924,14 +928,18 @@ makegraphviz <- function(.object., ..., file) {
 ##' \dontrun{
 ##' vClus(mydata, exclude=.q(country, city))
 ##' }
-vClus <- function(d, exclude=NULL, corrmatrix=FALSE,
-                  fracmiss=0.2, maxlevels=10, minprev=0.05,
-                  horiz=FALSE, label='fig-varclus', print=TRUE) {
+vClus <- function(d, exclude=NULL, corrmatrix=FALSE, redundancy=FALSE,
+                  rexclude=NULL,
+                  fracmiss=0.2, maxlevels=10, minprev=0.05, imputed=NULL,
+                  horiz=FALSE, label='fig-varclus', print=TRUE, ...) {
   w <- as.data.frame(d)  # needed by dataframeReduce
   if(length(exclude)) {
     if(! is.character(exclude)) exclude <- all.vars(exclude)
     w <- w[setdiff(names(w), exclude)]
-    }
+  }
+  if(length(rexclude) && ! is.character(rexclude))
+    rexclude <- all.vars(rexclude)
+  
   w <- dataframeReduce(w, fracmiss=fracmiss, maxlevels=maxlevels,
                        minprev=minprev, print=FALSE)
   if(print) print(kabl(attr(w, 'info'),
@@ -957,8 +965,15 @@ vClus <- function(d, exclude=NULL, corrmatrix=FALSE,
   form3 <- `Variable Clustering` ~ plot(.varclus.) +
     fig.size(height=5.5, width=7.5)
   if(horiz) maketabs(form1, form2, initblank=TRUE)
-else
-            maketabs(form1, form3, initblank=TRUE)
+  else
+    maketabs(form1, form3, initblank=TRUE)
+  if(redundancy) {
+    formr <- as.formula(paste('~', paste(setdiff(names(w), rexclude),
+                                         collapse=' + ')))
+    if(length(imputed)) w <- do.call(rbind, completer(imputed, mydata=d))
+    red <- redun(formr, data=w, ...)
+    htmlVerbatim(red)
+    }
 }
 
 
