@@ -9,6 +9,8 @@ vClus(
   exclude = NULL,
   corrmatrix = FALSE,
   redundancy = FALSE,
+  spc = FALSE,
+  trans = FALSE,
   rexclude = NULL,
   fracmiss = 0.2,
   maxlevels = 10,
@@ -17,7 +19,11 @@ vClus(
   horiz = FALSE,
   label = "fig-varclus",
   print = TRUE,
-  ...
+  redunargs = NULL,
+  spcargs = NULL,
+  transaceargs = NULL,
+  transacefile = NULL,
+  spcfile = NULL
 )
 }
 \arguments{
@@ -29,7 +35,11 @@ vClus(
 
 \item{redundancy}{set to \code{TRUE} to run \code{\link[Hmisc:redun]{Hmisc::redun()}} on non-excluded variables}
 
-\item{rexclude}{extra variables to exclude from redundancy analysis (formula or character vector)}
+\item{spc}{set to \code{TRUE} to run \code{\link[Hmisc:princmp]{Hmisc::princmp()}} to do a sparse principal component analysis with the argument \code{method='sparse'} passed}
+
+\item{trans}{set to \code{TRUE} to run \code{\link[Hmisc:transace]{Hmisc::transace()}} to transform each predictor before running redundancy or principal components analysis. \code{transace} is run on the stacked filled-in data if \code{imputed} is given.}
+
+\item{rexclude}{extra variables to exclude from \code{transace} transformating-finding, redundancy analysis, and sparce principal components (formula or character vector)}
 
 \item{fracmiss}{if the fraction of \code{NA}s for a variable exceeds this the variable will not be included}
 
@@ -37,7 +47,7 @@ vClus(
 
 \item{minprev}{the minimum proportion of non-missing observations in a category for a binary variable to be retained, and the minimum relative frequency of a category before it will be combined with other small categories}
 
-\item{imputed}{an object created by \code{\link[Hmisc:aregImpute]{Hmisc::aregImpute()}} or \code{\link[mice:mice]{mice::mice()}} that contains information from multiple imputation that causes \code{vClus} to create all the filled-in datasets, stack them into one tall dataset, and pass that dataset to \code{\link[Hmisc:redun]{Hmisc::redun()}} so that \code{NA}s can be handled efficiently in redundancy analysis, i.e., without excluding partial records.  Variable clustering and the correlation matrix are already efficient because they use pairwise deletion of \code{NA}s.}
+\item{imputed}{an object created by \code{\link[Hmisc:aregImpute]{Hmisc::aregImpute()}} or \code{\link[mice:mice]{mice::mice()}} that contains information from multiple imputation that causes \code{vClus} to create all the filled-in datasets, stack them into one tall dataset, and pass that dataset to \code{\link[Hmisc:redun]{Hmisc::redun()}} or \code{\link[Hmisc:princmp]{Hmisc::princmp()}} so that \code{NA}s can be handled efficiently in redundancy analysis and sparse principal components, i.e., without excluding partial records.  Variable clustering and the correlation matrix are already efficient because they use pairwise deletion of \code{NA}s.}
 
 \item{horiz}{set to \code{TRUE} to draw the dendrogram horizontally}
 
@@ -45,10 +55,18 @@ vClus(
 
 \item{print}{set to \code{FALSE} to not let \code{dataframeReduce} report details}
 
-\item{...}{other arguments passed to \code{\link[Hmisc:redun]{Hmisc::redun()}}}
+\item{redunargs}{a \code{list()} of other arguments passed to \code{\link[Hmisc:redun]{Hmisc::redun()}}}
+
+\item{spcargs}{a \code{list()} of other arguments passed to \code{\link[Hmisc:princmp]{Hmisc::princmp()}}}
+
+\item{transaceargs}{a \code{list()} of other arguments passed to \code{\link[Hmisc:transace]{Hmisc::transace()}}}
+
+\item{transacefile}{similar to \code{spcfile} and can be used when \code{trans=TRUE}}
+
+\item{spcfile}{a character string specifying an \code{.rds} R binary file to hold the results of sparse principal component analysis.  Using \code{\link[Hmisc:runifChanged]{Hmisc::runifChanged()}}, if the file name is specified and no inputs have changed since the last run, the result is read from the file.  Otherwise a new run is made and the file is recreated if \code{spcfile} is specified.  This is done because sparse principal components can take several minutes to run on large files.}
 }
 \value{
-nothing; makes Quarto tabs
+makes Quarto tabs and prints output, returning nothing unless \code{spc=TRUE} or \code{trans=TRUE} are used, in which case a list with components \code{princmp} and/or \code{transace} is returned and these components can be passed to special \code{print} and \code{plot} methods for \code{spc} or to \code{ggplot_transace}.  The user can put scree plots and PC loading plots in separate code chunks that use different figure sizes that way.
 }
 \description{
 Make Variable Clustering Quarto Report Section
@@ -62,7 +80,7 @@ vClus(mydata, exclude=.q(country, city))
 }
 }
 \seealso{
-\code{\link[Hmisc:varclus]{Hmisc::varclus()}}, \code{\link[Hmisc:plotCorrM]{Hmisc::plotCorrM()}}, \code{\link[Hmisc:upData]{Hmisc::dataframeReduce()}}
+\code{\link[Hmisc:varclus]{Hmisc::varclus()}}, \code{\link[Hmisc:plotCorrM]{Hmisc::plotCorrM()}}, \code{\link[Hmisc:upData]{Hmisc::dataframeReduce()}}, \code{\link[Hmisc:redun]{Hmisc::redun()}}, \code{\link[Hmisc:princmp]{Hmisc::princmp()}}, \code{\link[Hmisc:transace]{Hmisc::transace()}}
 }
 \author{
 Frank Harrell

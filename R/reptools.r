@@ -911,17 +911,23 @@ makegraphviz <- function(.object., ..., file) {
 ##' @param exclude formula or vector of character strings containing variables to exclude from analysis
 ##' @param corrmatrix set to `TRUE` to use [Hmisc::plotCorrM()] to depict a Spearman rank correlation matrix.
 ##' @param redundancy set to `TRUE` to run [Hmisc::redun()] on non-excluded variables
-##' @param rexclude extra variables to exclude from redundancy analysis (formula or character vector)
+##' @param spc set to `TRUE` to run [Hmisc::princmp()] to do a sparse principal component analysis with the argument `method='sparse'` passed
+##' @param trans set to `TRUE` to run [Hmisc::transace()] to transform each predictor before running redundancy or principal components analysis. `transace` is run on the stacked filled-in data if `imputed` is given.
+##' @param rexclude extra variables to exclude from `transace` transformating-finding, redundancy analysis, and sparce principal components (formula or character vector)
 ##' @param fracmiss if the fraction of `NA`s for a variable exceeds this the variable will not be included
 ##' @param maxlevels if the maximum number of distinct values for a categorical variable exceeds this, the variable will be dropped
 ##' @param minprev the minimum proportion of non-missing observations in a category for a binary variable to be retained, and the minimum relative frequency of a category before it will be combined with other small categories
-##' @param imputed an object created by [Hmisc::aregImpute()] or [mice::mice()] that contains information from multiple imputation that causes `vClus` to create all the filled-in datasets, stack them into one tall dataset, and pass that dataset to [Hmisc::redun()] so that `NA`s can be handled efficiently in redundancy analysis, i.e., without excluding partial records.  Variable clustering and the correlation matrix are already efficient because they use pairwise deletion of `NA`s.
+##' @param imputed an object created by [Hmisc::aregImpute()] or [mice::mice()] that contains information from multiple imputation that causes `vClus` to create all the filled-in datasets, stack them into one tall dataset, and pass that dataset to [Hmisc::redun()] or [Hmisc::princmp()] so that `NA`s can be handled efficiently in redundancy analysis and sparse principal components, i.e., without excluding partial records.  Variable clustering and the correlation matrix are already efficient because they use pairwise deletion of `NA`s.
 ##' @param horiz set to `TRUE` to draw the dendrogram horizontally
 ##' @param label figure label for Quarto
 ##' @param print set to `FALSE` to not let `dataframeReduce` report details
-##' @param ... other arguments passed to [Hmisc::redun()]
-##' @return nothing; makes Quarto tabs
-##' @seealso [Hmisc::varclus()], [Hmisc::plotCorrM()], [Hmisc::dataframeReduce()]
+##' @param redunargs a `list()` of other arguments passed to [Hmisc::redun()]
+##' @param spcargs a `list()` of other arguments passed to [Hmisc::princmp()]
+##' @param transaceargs a `list()` of other arguments passed to [Hmisc::transace()]
+##' @param spcfile a character string specifying an `.rds` R binary file to hold the results of sparse principal component analysis.  Using [Hmisc::runifChanged()], if the file name is specified and no inputs have changed since the last run, the result is read from the file.  Otherwise a new run is made and the file is recreated if `spcfile` is specified.  This is done because sparse principal components can take several minutes to run on large files.
+##' @param transacefile similar to `spcfile` and can be used when `trans=TRUE`
+##' @return makes Quarto tabs and prints output, returning nothing unless `spc=TRUE` or `trans=TRUE` are used, in which case a list with components `princmp` and/or `transace` is returned and these components can be passed to special `print` and `plot` methods for `spc` or to `ggplot_transace`.  The user can put scree plots and PC loading plots in separate code chunks that use different figure sizes that way.
+##' @seealso [Hmisc::varclus()], [Hmisc::plotCorrM()], [Hmisc::dataframeReduce()], [Hmisc::redun()], [Hmisc::princmp()], [Hmisc::transace()]
 ##' @author Frank Harrell
 ##' @md
 ##' @examples
@@ -929,9 +935,12 @@ makegraphviz <- function(.object., ..., file) {
 ##' vClus(mydata, exclude=.q(country, city))
 ##' }
 vClus <- function(d, exclude=NULL, corrmatrix=FALSE, redundancy=FALSE,
-                  rexclude=NULL,
+                  spc=FALSE, trans=FALSE, rexclude=NULL,
                   fracmiss=0.2, maxlevels=10, minprev=0.05, imputed=NULL,
-                  horiz=FALSE, label='fig-varclus', print=TRUE, ...) {
+                  horiz=FALSE, label='fig-varclus', print=TRUE,
+                  redunargs=NULL, spcargs=NULL, transaceargs=NULL,
+                  transacefile=NULL, spcfile=NULL) {
+
   w <- as.data.frame(d)  # needed by dataframeReduce
   if(length(exclude)) {
     if(! is.character(exclude)) exclude <- all.vars(exclude)
@@ -942,38 +951,70 @@ vClus <- function(d, exclude=NULL, corrmatrix=FALSE, redundancy=FALSE,
   
   w <- dataframeReduce(w, fracmiss=fracmiss, maxlevels=maxlevels,
                        minprev=minprev, print=FALSE)
-  if(print) print(kabl(attr(w, 'info'),
-                       caption='Variables removed or modified'))
+  rinfo <- attr(w, 'info')
+  if(print && length(rinfo))
+    print(kabl(attr(w, 'info'),
+               caption='Variables removed or modified'))
   
   form <- as.formula(paste('~', paste(names(w), collapse=' + ')))
   v <- varclus(form, data=w)
   if(! corrmatrix) {
     if(horiz) plot(as.dendrogram(v$hclust), horiz=TRUE)
     else plot(v)
-    return()
   }
-  ge <- .GlobalEnv
-  assign('.varclus.', v, envir=ge)
-  rho <- varclus(form, data=w, trans='none')$sim
-  assign('.varclus.gg.', plotCorrM(rho, xangle=90)[[1]], envir=ge)
-  cap <- 'Spearman rank correlation matrix.  Positive correlations are blue and negative are red.'
-  form1 <- `Correlation Matrix` ~ .varclus.gg. + caption(cap, label=label) +
-    fig.size(width=9.25, height=8.5)
-  form2 <- `Variable Clustering` ~
-    plot(as.dendrogram(.varclus.$hclus), horiz=TRUE) +
-    fig.size(height=4.5, width=7.5)
-  form3 <- `Variable Clustering` ~ plot(.varclus.) +
-    fig.size(height=5.5, width=7.5)
-  if(horiz) maketabs(form1, form2, initblank=TRUE)
-  else
-    maketabs(form1, form3, initblank=TRUE)
-  if(redundancy) {
+  if(corrmatrix) {
+    ge <- .GlobalEnv
+    assign('.varclus.', v, envir=ge)
+    rho <- varclus(form, data=w, trans='none')$sim
+    assign('.varclus.gg.', plotCorrM(rho, xangle=90)[[1]], envir=ge)
+    cap <- 'Spearman rank correlation matrix.  Positive correlations are blue and negative are red.'
+    form1 <- `Correlation Matrix` ~ .varclus.gg. + caption(cap, label=label) +
+      fig.size(width=9.25, height=8.5)
+    form2 <- `Variable Clustering` ~
+      plot(as.dendrogram(.varclus.$hclus), horiz=TRUE) +
+      fig.size(height=4.5, width=7.5)
+    form3 <- `Variable Clustering` ~ plot(.varclus.) +
+      fig.size(height=5.5, width=7.5)
+    if(horiz) maketabs(form1, form2, initblank=TRUE)
+    else
+      maketabs(form1, form3, initblank=TRUE)
+    }
+  
+  if(trans | redundancy | spc) {
     formr <- as.formula(paste('~', paste(setdiff(names(w), rexclude),
                                          collapse=' + ')))
     if(length(imputed)) w <- do.call(rbind, completer(imputed, mydata=d))
-    red <- redun(formr, data=w, ...)
-    htmlVerbatim(red)
+  }
+
+  R <- list()
+  
+  if(trans) {
+    args <- c(list(formr, data=w), transaceargs)
+    if(! length(transacefile)) z <- do.call(transace, args)
+    else {
+      g <- function() do.call(transace, args)
+      z <- runifChanged(g, args, file=transacefile)
+      }
+    R$transace <- z
+    formr      <- z$transformed
+    w          <- NULL
+  }
+  
+  if(redundancy) {
+    red <- do.call(redun, c(list(formr, data=w), redunargs))
+    cat(htmlVerbatim(red), sep='\n')
+  }
+  
+  if(spc) {
+    args <- c(list(formr, data=w, method='sparse'), spcargs)
+    if(! length(spcfile)) p <- do.call(princmp, args)
+    else {
+      g <- function() do.call(princmp, args)
+      p <- runifChanged(g, args, file=spcfile)
     }
+    R$princmp <- p
+  }
+  invisible(R)
 }
 
 
