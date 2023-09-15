@@ -36,7 +36,7 @@ nothing; renders a report with Quarto/RMarkdown
 Produce a Data Overview Quarto Section
 }
 \details{
-Produces a multi-tabbed dataset overview as exemplified \href{http://hbiostat.org/rflow/doverview.html#sec-doverview-data}{here}.  This includes provision of data about data such as variable type, symmetry, missingness, rarest and most common values.
+Produces a multi-tabbed dataset overview as exemplified \href{https://hbiostat.org/rflow/doverview.html#sec-doverview-data/}{here}.  This includes provision of data about data such as variable type, symmetry, missingness, rarest and most common values.
 }
 \examples{
 \dontrun{

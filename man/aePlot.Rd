@@ -65,7 +65,7 @@ Generates graphics for binary event proportions
 \details{
 Generates dot charts showing proportions of subjects having events (at any time).  Events can be categorized by a single level or by major and minor levels (e.g., body system and preferred terms).  When there are two treatments, half-width CLs of treatment differences are drawn, centered at the midpoint of the two proportions, and CLs for differences appear in hover text.   Input data must contain one record per event, with this record containing the event name.  If there is more than one event of a given type per subject, unique subject ID must be provided.  Denominators come from \code{qreport} options when computing event incidence proportions.  Instead, when a named vector \code{exposure} is specified, with names equal to the treatments, \code{exposure} is used as the denominator so that the exponential distribution hazard rate is computed, i.e., events per unit of exposure time.  When a subject has only one event of each type, the usual interpretation holds.  When a subject has multiple events, the estimate is events per person per time unit.  A character variable \code{expunit} defines the time units.   It is assumed that only randomized subjects are included in the dataset.  Whenever the number of events of a given type is zero for a group, the event frequency is changed to 0.5 so that one may compute confidence intervals on the log scale as well as hazard ratios.
 
-For an example with output see https://hbiostat.org/rflow/descript.html#adverse-event-chart
+For an example with output see https://hbiostat.org/rflow/descript.html#adverse-event-chart/
 }
 \examples{
 # See test.Rnw in tests directory

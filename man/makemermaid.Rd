@@ -27,7 +27,7 @@ nothing; used to \code{knitr::knit_expand()} mermaid markup
 Create a Quarto Mermaid Diagram Chunk With Variable Insertions
 }
 \details{
-Takes a character string or vector and uses \code{\link[knitr:knit_expand]{knitr::knit_expand()}} to apply variable insertions before the diagram is rendered by Quarto.  See \href{http://hbiostat.org/rflow/doverview.html#fig-mermaid1}{this} for an example.
+Takes a character string or vector and uses \code{\link[knitr:knit_expand]{knitr::knit_expand()}} to apply variable insertions before the diagram is rendered by Quarto.  See \href{https://hbiostat.org/rflow/doverview.html#fig-mermaid1/}{this} for an example.
 }
 \seealso{
 \code{\link[=makegraphviz]{makegraphviz()}}

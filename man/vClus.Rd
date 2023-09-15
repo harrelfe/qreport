@@ -72,7 +72,7 @@ makes Quarto tabs and prints output, returning nothing unless \code{spc=TRUE} or
 Make Variable Clustering Quarto Report Section
 }
 \details{
-Draws a variable clustering dendrogram and optionally graphically depicts a correlation matrix.  See \href{http://hbiostat.org/rflow/descript.html#describing-variable-interrelationships}{this} for an example.  Uses \code{\link[Hmisc:varclus]{Hmisc::varclus()}}.
+Draws a variable clustering dendrogram and optionally graphically depicts a correlation matrix.  See \href{https://hbiostat.org/rflow/descript.html#describing-variable-interrelationships/}{this} for an example.  Uses \code{\link[Hmisc:varclus]{Hmisc::varclus()}}.
 }
 \examples{
 \dontrun{

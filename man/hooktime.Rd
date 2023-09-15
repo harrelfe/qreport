@@ -19,7 +19,7 @@ Create knitr Hook for Reporting Execution Time for Chunks
 Creates a hook called \code{time} that can be activated by including \code{time=TRUE} in a chunk header.  The chunk's execution time in seconds will be printed in a very small html font at the end of the chunk's output.
 }
 \seealso{
-\href{https://bookdown.org/yihui/rmarkdown-cookbook/time-chunk.html}{this} and \code{\link[=timeMar]{timeMar()}}
+\href{https://bookdown.org/yihui/rmarkdown-cookbook/time-chunk.html/}{this} and \code{\link[=timeMar]{timeMar()}}
 }
 \author{
 Frank Harrell

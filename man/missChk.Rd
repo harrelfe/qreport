@@ -51,7 +51,7 @@ nothing; outputs Quarto/RMarkdown text and tabs for a full report section
 Produce a Report Section Detailing Missing Values in a Dataset
 }
 \details{
-Quantifies frequencies of missing observations on a variable and missing variables on an observaton and produces variables tables and (depending on the number of \code{NA}s) multiple graphic displays in Quarto tabs.  The results are best understood by referring to \href{http://hbiostat.org/rflow/case.html#missing-data}{this}.
+Quantifies frequencies of missing observations on a variable and missing variables on an observaton and produces variables tables and (depending on the number of \code{NA}s) multiple graphic displays in Quarto tabs.  The results are best understood by referring to \href{https://hbiostat.org/rflow/case.html#missing-data/}{this}.
 }
 \examples{
 \dontrun{

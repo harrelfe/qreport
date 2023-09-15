@@ -2,7 +2,7 @@ Package: qreport
 Type: Package
 Title: Statistical Reporting with 'Quarto'
 Version: 1.0-0
-Date: 2023-09-03
+Date: 2023-09-12
 Author: Frank Harrell
 Maintainer: Frank Harrell <fh@fharrell.com>
 Description: Provides statistical components, tables, and graphs

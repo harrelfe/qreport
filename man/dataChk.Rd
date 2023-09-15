@@ -38,7 +38,7 @@ Run a Series of Data Checks and Report
 \details{
 Function to run various data checks on a data table.
 
-Checks are run separately for each part of the \code{expression} vector \code{checks}.  For each single expression, the variables listed in the output are all the variables mentioned in the expression plus optional variables whose names are in the character vector \code{id}. \verb{\%between\% c(a,b)} in expressions is printed as \verb{[a,b]}.  The output format is plain text unless \code{html=TRUE} which also puts each table in a separate Quarto tab.  See \href{https://www.fharrell.com/post/rflow}{here} for examples.
+Checks are run separately for each part of the \code{expression} vector \code{checks}.  For each single expression, the variables listed in the output are all the variables mentioned in the expression plus optional variables whose names are in the character vector \code{id}. \verb{\%between\% c(a,b)} in expressions is printed as \verb{[a,b]}.  The output format is plain text unless \code{html=TRUE} which also puts each table in a separate Quarto tab.  See \href{https://www.fharrell.com/post/rflow/}{here} for examples.
 }
 \examples{
 \dontrun{

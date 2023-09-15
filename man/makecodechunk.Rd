@@ -17,7 +17,7 @@ makecodechunk(
 \arguments{
 \item{cmd}{character string vector of commands to run inside chunk}
 
-\item{opts}{optional list of chunk options, e.g. \code{list(fig.width=6, fig.cap="This is a caption")}.  See \url{https://yihui.org/knitr/options} for a complete list of options.}
+\item{opts}{optional list of chunk options, e.g. \code{list(fig.width=6, fig.cap="This is a caption")}.  See \url{https://yihui.org/knitr/options/} for a complete list of options.}
 
 \item{results}{format of results, default is \code{'asis'}.  May specify \code{results='markup'}.}
 

@@ -62,7 +62,7 @@ kabl <- function(..., caption=NULL, digits=4, col.names=NA, row.names=NA) {
 ##' Creates text strings suitable for running through `knitr`.  The chunk is given a random name because certain operations are not allowed by `knitr` without it.
 ##' @title makecodechunk
 ##' @param cmd character string vector of commands to run inside chunk
-##' @param opts optional list of chunk options, e.g. `list(fig.width=6, fig.cap="This is a caption")`.  See <https://yihui.org/knitr/options> for a complete list of options.
+##' @param opts optional list of chunk options, e.g. `list(fig.width=6, fig.cap="This is a caption")`.  See <https://yihui.org/knitr/options/> for a complete list of options.
 ##' @param results format of results, default is `'asis'`.  May specify `results='markup'`.
 ##' @param lang language for the chunk
 ##' @param callout an optional Quarto callout to include after `#|` after the chunk header that affects how the result appears, e.g. `callout='column: margin'`
@@ -236,7 +236,7 @@ makecolmarg <- function(x, type=c('print', 'run', 'cat'), ...) {
 ##' @title maketabs
 ##' @param ... a series of formulas or a single named list.  For formulas the left side is the tab label (if multiple words or other illegal R expressions enclose in backticks) and the right hand side has expressions to evaluate during chunk execution, plus optional `raw`, `caption`, and `fig.size` options.
 ##' @param wide set to `TRUE` to use a Quarto `column-page` for the body of the text to allow it to use some of the margins
-##' @param cwidth specify a legal `Quarto` character string instead of `wide` to specify the width of the output.  These are defined [here](https://quarto.org/docs/authoring/article-layout.html#options-reference).  Commonly used values are `'column-screen-right'`, `'column-page-left'`, `'column-screen-inset-shaded'`. 
+##' @param cwidth specify a legal `Quarto` character string instead of `wide` to specify the width of the output.  These are defined [here](https://quarto.org/docs/authoring/article-layout.html#options-reference/).  Commonly used values are `'column-screen-right'`, `'column-page-left'`, `'column-screen-inset-shaded'`. 
 ##' @param initblank set to `TRUE` to create a first tab that is blank so that the report will not initially show any tabbed material
 ##' @param baselabel a one-word character string that provides the base name of `label`s for tabs with figure captions.  The sequential tab number is appended to `baselabel` to obtain the full figure label.  If using formulas the figure label may instead come from `caption(.., label)`. If not specified it is taken to be the name of the current chunk with `fig-` prepended.
 ##' @param cap applies to the non-formula use of `maketabs` and is an integer vector specifying which tabs are to be given figure labels and captions.
@@ -248,7 +248,7 @@ makecolmarg <- function(x, type=c('print', 'run', 'cat'), ...) {
 ##' @examples
 ##' X <- list(A=data.frame(x=1:2), B=data.frame(x=1:2, y=11:12))
 ##' maketabs(X)
-# See https://stackoverflow.com/questions/42631642
+# See https://stackoverflow.com/questions/42631642/
 maketabs <- function(..., wide=FALSE, cwidth=if(wide) 'column-page',
                      initblank=FALSE,
                      baselabel=NULL, cap=NULL, basecap=NULL, debug=FALSE) {
@@ -428,7 +428,7 @@ htmlViewx <- function(..., tab=c('notfirst', 'all', 'none')) {
 ##'
 ##' Function to run various data checks on a data table.
 ##'
-##' Checks are run separately for each part of the `expression` vector `checks`.  For each single expression, the variables listed in the output are all the variables mentioned in the expression plus optional variables whose names are in the character vector `id`. `%between% c(a,b)` in expressions is printed as `[a,b]`.  The output format is plain text unless `html=TRUE` which also puts each table in a separate Quarto tab.  See [here](https://www.fharrell.com/post/rflow) for examples.
+##' Checks are run separately for each part of the `expression` vector `checks`.  For each single expression, the variables listed in the output are all the variables mentioned in the expression plus optional variables whose names are in the character vector `id`. `%between% c(a,b)` in expressions is printed as `[a,b]`.  The output format is plain text unless `html=TRUE` which also puts each table in a separate Quarto tab.  See [here](https://www.fharrell.com/post/rflow/) for examples.
 ##' @title dataChk
 ##' @param d a data table
 ##' @param checks a vector of expressions that if satisfied causes records to be listed
@@ -544,7 +544,7 @@ scplot <- function(command, cap=NULL, scap=NULL, w=5, h=4, id=NULL) {
 
 ##' Produce a Report Section Detailing Missing Values in a Dataset
 ##'
-##' Quantifies frequencies of missing observations on a variable and missing variables on an observaton and produces variables tables and (depending on the number of `NA`s) multiple graphic displays in Quarto tabs.  The results are best understood by referring to [this](http://hbiostat.org/rflow/case.html#missing-data).
+##' Quantifies frequencies of missing observations on a variable and missing variables on an observaton and produces variables tables and (depending on the number of `NA`s) multiple graphic displays in Quarto tabs.  The results are best understood by referring to [this](https://hbiostat.org/rflow/case.html#missing-data/).
 ##' @title missChk
 ##' @param data data frame or table to analyze
 ##' @param use a formula or character vector specifying which variables to consider if not all those in `data`
@@ -822,7 +822,7 @@ asForm  <- function(x) as.formula(paste('~', paste(x, collapse=' + ')))
 
 ##' Create a Quarto Mermaid Diagram Chunk With Variable Insertions
 ##'
-##' Takes a character string or vector and uses [knitr::knit_expand()] to apply variable insertions before the diagram is rendered by Quarto.  See [this](http://hbiostat.org/rflow/doverview.html#fig-mermaid1) for an example.
+##' Takes a character string or vector and uses [knitr::knit_expand()] to apply variable insertions before the diagram is rendered by Quarto.  See [this](https://hbiostat.org/rflow/doverview.html#fig-mermaid1/) for an example.
 ##' @title makemermaid
 ##' @param .object. character string or vector with `mermaid` markup
 ##' @param ... name=value pairs that makes values replace `{{name}}` elements in the markup
@@ -849,7 +849,7 @@ makemermaid <- function(.object., ..., file) {
 
 ##' Create a Quarto Graphviz dot Diagram Chunk With Variable Insertions
 ##'
-##' Takes a character string or vector and uses [knitr::knit_expand()] to apply variable insertions before the diagram is rendered by Quarto.  See [this](http://hbiostat.org/rflow/doverview.html#sec-doverview-filter) for an example.  Unlike `mermaid`, `graphviz` can include user-defined linkages to specific parts of a node (e.g., a single word in a line of text) to another part of the chart, and can render tables.  If an inclusion is `...` is a data frame or table, it will be properly rendered inside the diagram.
+##' Takes a character string or vector and uses [knitr::knit_expand()] to apply variable insertions before the diagram is rendered by Quarto.  See [this](https://hbiostat.org/rflow/doverview.html#sec-doverview-filter/) for an example.  Unlike `mermaid`, `graphviz` can include user-defined linkages to specific parts of a node (e.g., a single word in a line of text) to another part of the chart, and can render tables.  If an inclusion is `...` is a data frame or table, it will be properly rendered inside the diagram.
 ##' @title makegraphviz
 ##' @param .object. character string or vector with `graphviz` markup
 ##' @param ... name=value pairs that makes values replace `{{name}}` elements in the markup
@@ -905,7 +905,7 @@ makegraphviz <- function(.object., ..., file) {
 
 ##' Make Variable Clustering Quarto Report Section
 ##'
-##' Draws a variable clustering dendrogram and optionally graphically depicts a correlation matrix.  See [this](http://hbiostat.org/rflow/descript.html#describing-variable-interrelationships) for an example.  Uses [Hmisc::varclus()].
+##' Draws a variable clustering dendrogram and optionally graphically depicts a correlation matrix.  See [this](https://hbiostat.org/rflow/descript.html#describing-variable-interrelationships/) for an example.  Uses [Hmisc::varclus()].
 ##' @title cClus
 ##' @param d a data frame or table
 ##' @param exclude formula or vector of character strings containing variables to exclude from analysis
@@ -1020,7 +1020,7 @@ vClus <- function(d, exclude=NULL, corrmatrix=FALSE, redundancy=FALSE,
 
 ##' Produce a Data Overview Quarto Section
 ##'
-##' Produces a multi-tabbed dataset overview as exemplified [here](http://hbiostat.org/rflow/doverview.html#sec-doverview-data).  This includes provision of data about data such as variable type, symmetry, missingness, rarest and most common values.
+##' Produces a multi-tabbed dataset overview as exemplified [here](https://hbiostat.org/rflow/doverview.html#sec-doverview-data/).  This includes provision of data about data such as variable type, symmetry, missingness, rarest and most common values.
 ##' @title dataOverview
 ##' @param d a data frame or table
 ##' @param d2 optional second dataset used for analyzing uniqueness of subject IDs
@@ -1522,7 +1522,7 @@ timeMar <- function(x) {
 ##' @title hooktime
 ##' @param all set to `TRUE` to time every chunk without the need for `time=TRUE` in the chunk header
 ##' @return nothing
-##' @seealso [this](https://bookdown.org/yihui/rmarkdown-cookbook/time-chunk.html) and [timeMar()]
+##' @seealso [this](https://bookdown.org/yihui/rmarkdown-cookbook/time-chunk.html/) and [timeMar()]
 ##' @author Frank Harrell
 ##' @md
 hooktime <- function(all=FALSE) {
@@ -1545,7 +1545,7 @@ hooktime <- function(all=FALSE) {
 ##' Apply Derived Variable Specifications
 ##' 
 ##' Function to apply derived variable specifications derv to a data table `d`.   Actions on `d` are done in place, so call the function using `runDeriveExpr(d, derv object)` and not by running `d <- runDeriveExpr(d, derv object)`.
-##' See [this](http://hbiostat.org/rflow/manip.html#sec-manip-recexp) for an example.
+##' See [this](https://hbiostat.org/rflow/manip.html#sec-manip-recexp/) for an example.
 ##' @title runDeriveExpr
 ##' @param d a data table
 ##' @param derv a `list` of expressions to evaluate

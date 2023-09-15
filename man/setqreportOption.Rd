@@ -20,7 +20,7 @@ setqreportOption(..., study = " ")
 \item{\code{alpha.f}:}{single numeric specifying alpha adjustment to be applied to all colors.  Default is 1 (no adjustment)}
 \item{\code{denom}:}{named vector with overall sample sizes}
 }
-See https://github.com/plotly/plotly.py/blob/master/plotly/colors.py#L83-L87}
+See https://github.com/plotly/plotly.py/blob/master/plotly/colors.py#L83-L87/}
 
 \item{study}{an optional study mnemonic (character string) needed when multiple studies are being analyzed (or when one study is divided into distinct strata)}
 }

@@ -28,7 +28,7 @@ nothing; used to \code{knitr::knit_expand()} graphviz markup
 Create a Quarto Graphviz dot Diagram Chunk With Variable Insertions
 }
 \details{
-Takes a character string or vector and uses \code{\link[knitr:knit_expand]{knitr::knit_expand()}} to apply variable insertions before the diagram is rendered by Quarto.  See \href{http://hbiostat.org/rflow/doverview.html#sec-doverview-filter}{this} for an example.  Unlike \code{mermaid}, \code{graphviz} can include user-defined linkages to specific parts of a node (e.g., a single word in a line of text) to another part of the chart, and can render tables.  If an inclusion is \code{...} is a data frame or table, it will be properly rendered inside the diagram.
+Takes a character string or vector and uses \code{\link[knitr:knit_expand]{knitr::knit_expand()}} to apply variable insertions before the diagram is rendered by Quarto.  See \href{https://hbiostat.org/rflow/doverview.html#sec-doverview-filter/}{this} for an example.  Unlike \code{mermaid}, \code{graphviz} can include user-defined linkages to specific parts of a node (e.g., a single word in a line of text) to another part of the chart, and can render tables.  If an inclusion is \code{...} is a data frame or table, it will be properly rendered inside the diagram.
 }
 \seealso{
 \code{\link[=makemermaid]{makemermaid()}}

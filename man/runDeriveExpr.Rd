@@ -21,7 +21,7 @@ Apply Derived Variable Specifications
 }
 \details{
 Function to apply derived variable specifications derv to a data table \code{d}.   Actions on \code{d} are done in place, so call the function using \verb{runDeriveExpr(d, derv object)} and not by running \verb{d <- runDeriveExpr(d, derv object)}.
-See \href{http://hbiostat.org/rflow/manip.html#sec-manip-recexp}{this} for an example.
+See \href{https://hbiostat.org/rflow/manip.html#sec-manip-recexp/}{this} for an example.
 }
 \examples{
 require(data.table)

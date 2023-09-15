@@ -20,7 +20,7 @@ maketabs(
 
 \item{wide}{set to \code{TRUE} to use a Quarto \code{column-page} for the body of the text to allow it to use some of the margins}
 
-\item{cwidth}{specify a legal \code{Quarto} character string instead of \code{wide} to specify the width of the output.  These are defined \href{https://quarto.org/docs/authoring/article-layout.html#options-reference}{here}.  Commonly used values are \code{'column-screen-right'}, \code{'column-page-left'}, \code{'column-screen-inset-shaded'}.}
+\item{cwidth}{specify a legal \code{Quarto} character string instead of \code{wide} to specify the width of the output.  These are defined \href{https://quarto.org/docs/authoring/article-layout.html#options-reference/}{here}.  Commonly used values are \code{'column-screen-right'}, \code{'column-page-left'}, \code{'column-screen-inset-shaded'}.}
 
 \item{initblank}{set to \code{TRUE} to create a first tab that is blank so that the report will not initially show any tabbed material}
 

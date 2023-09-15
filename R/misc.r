@@ -14,7 +14,7 @@
 #'  \item{\code{alpha.f}:}{single numeric specifying alpha adjustment to be applied to all colors.  Default is 1 (no adjustment)}
 #'  \item{\code{denom}:}{named vector with overall sample sizes}
 #' }
-#' See https://github.com/plotly/plotly.py/blob/master/plotly/colors.py#L83-L87
+#' See https://github.com/plotly/plotly.py/blob/master/plotly/colors.py#L83-L87/
 #' @return no returned value, used to set `options()`
 #' @md
 #' @export
