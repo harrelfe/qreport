@@ -1281,7 +1281,7 @@ print(table(unlist(w)))
 w <- lapply(X, function(x) sapply(x, function(y) inherits(y, 'labelled')))
 cat('\nVariables with labels:', sum(unlist(w)), 'out of', length(unlist(w)), '\n\n')
 
-w <- data.frame(dataset=names(X),
+w <- data.frame(row.names=names(X),
                 rows=sapply(X, nrow),
                 columns=sapply(X, length))
 if(length(id)) {

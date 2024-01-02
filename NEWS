@@ -1,4 +1,8 @@
 Version 1.0-0
+- 2024-01-02
+- Changed multDataOverview print output to have dataset name only in rownames, not also as variable name dataset
+
+Version 1.0-0
 
 - 2023-09-12
 - Added hooktime function to automatically time knitr chunks
