@@ -1,8 +1,8 @@
 Package: qreport
 Type: Package
 Title: Statistical Reporting with 'Quarto'
-Version: 1.0-1
-Date: 2024-05-26
+Version: 1.0-2
+Date: 2025-03-29
 Author: Frank Harrell
 Maintainer: Frank Harrell <fh@fharrell.com>
 Description: Provides statistical components, tables, and graphs
@@ -14,8 +14,9 @@ Description: Provides statistical components, tables, and graphs
 		and so are special clinical trial graphics for adverse event reporting.
 Depends: Hmisc (>= 5.1-1), data.table, ggplot2
 Imports: rms, Formula, viridis, knitr, htmltools
+Suggests: tth
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyLoad: Yes
 URL: https://hbiostat.org/R/qreport/
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
