@@ -10,7 +10,7 @@ makegvflow(
   direction = c("TD", "LR"),
   style = "filled",
   shape = "box",
-  fontsize = 20,
+  fontsize = 18,
   fontcolor = "blue",
   fillcolor = "azure",
   penwidth = 0.1,
