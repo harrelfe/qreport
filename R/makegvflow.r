@@ -9,7 +9,7 @@
 ##' markup is converted to simple HTML markup using [tth::tth()].  Text lines
 ##' are automatically wrapped to keep text boxes from being too wide.  Text lines
 ##' beginning with "+" are combined with the previous major, minor, or tiny text line
-##' but separated by a double line break.
+##' but separated by a double line break (single break if `lbdouble=FALSE`).
 ##' 
 ##' The function uses [knitr::knit_expand()] to apply variable insertions before the diagram is rendered by Quarto.  See [this](https://hbiostat.org/rflow/doverview.html#sec-doverview-filter/) for an example.  ##' @title makegvflow
 ##' @param .object. character string or vector of plain text plus possible $\LaTeX$ math delimited by single dollar signs.  An empty initial line is ignore, so the user need not worry about having an initial quote mark on a line by itself.
@@ -23,6 +23,7 @@
 ##' @param arrowcolor arrow color
 ##' @param arrowsize arrow size
 ##' @param width text width for word-wrapping
+##' @param lbdouble set to `FALSE` to use a single line break for "+" lines
 ##' @param extracon one or more text strings specifying extra connections between nodes using node names `nijk` for major level `i`, minor level `j`, tiny level `k` (as many of these that are applicable).  For example specify `extracon=c('n1 -> n2', 'n21 -> n31')`. 
 ##' @param ... name=value pairs that makes values replace `{{name}}` elements in the markup
 ##' @param file name of file to hold `graphviz` markup after variable insertions.  Run this in Quarto using a chunk to looks like what is below, which was for `file='graphviz.dot'`.
@@ -61,7 +62,7 @@
 
 makegvflow <- function(.object., ..., direction=c('TD', 'LR'), style='filled', shape='box',
   fontsize=18, fontcolor='blue', fillcolor='azure', penwidth=0.1,
-  arrowcolor='blue3', arrowsize=0.7, width=25,
+  arrowcolor='blue3', arrowsize=0.7, width=30, lbdouble=TRUE,
   extracon=NULL, file, onlyprint=FALSE) {
 
   direction <- match.arg(direction)
@@ -111,28 +112,17 @@ makegvflow <- function(.object., ..., direction=c('TD', 'LR'), style='filled', s
   r <- sapply(x, g)
   if(r[1] != 0 || sum(r == 0) > 1)
     stop('first line of text must not be indented and must be the only such line')
-  
-  # Function like gsub but string replacement is done by a function 
-  # of the qualifying string
-  gsubrf <- function(x, rex, fun) {
-    matches <- regmatches(x, gregexpr(rex, x))
-    regmatches(x, gregexpr(rex, x)) <-
-      mapply(function(matches) sapply(matches, fun), matches, SIMPLIFY=FALSE)
-      x
-  }
 
   # Convert LaTeX expressions set off by $...$ to simple HTML
-  if(requireNamespace('tth', quietly = TRUE)) {
-    regex <- '\\$(.*?)\\$'
-    x <- gsubrf(x, regex, tth::tth)
-  }
-
+  # tth will combine lines, so do each line separately
+  if(requireNamespace('tth', quietly = TRUE))
+    for(i in 1 : length(x)) x[i] <- tth::tth(x[i])
   
   # Insert line breaks to wrap text
   x <- sapply(strwrap(x, width, simplify=FALSE), paste, collapse=br)
 
-  # Finally expand backtick to double line break
-  x <- gsub('`', paste0(br, br), x)
+  # Finally expand backtick to double or single line break
+  x <- gsub('`', if(lbdouble) paste0(br, br) else br, x)
 
   # Example layout and node names assigned
   #

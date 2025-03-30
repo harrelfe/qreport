@@ -16,7 +16,8 @@ makegvflow(
   penwidth = 0.1,
   arrowcolor = "blue3",
   arrowsize = 0.7,
-  width = 25,
+  width = 30,
+  lbdouble = TRUE,
   extracon = NULL,
   file,
   onlyprint = FALSE
@@ -47,6 +48,8 @@ makegvflow(
 
 \item{width}{text width for word-wrapping}
 
+\item{lbdouble}{set to \code{FALSE} to use a single line break for "+" lines}
+
 \item{extracon}{one or more text strings specifying extra connections between nodes using node names \code{nijk} for major level \code{i}, minor level \code{j}, tiny level \code{k} (as many of these that are applicable).  For example specify \code{extracon=c('n1 -> n2', 'n21 -> n31')}.}
 
 \item{file}{name of file to hold \code{graphviz} markup after variable insertions.  Run this in Quarto using a chunk to looks like what is below, which was for \code{file='graphviz.dot'}.}
@@ -73,7 +76,7 @@ chosen so that the chart is suitable for presentations.  Simple $\LaTeX$ math
 markup is converted to simple HTML markup using \code{\link[tth:tth]{tth::tth()}}.  Text lines
 are automatically wrapped to keep text boxes from being too wide.  Text lines
 beginning with "+" are combined with the previous major, minor, or tiny text line
-but separated by a double line break.
+but separated by a double line break (single break if \code{lbdouble=FALSE}).
 }
 \details{
 The function uses \code{\link[knitr:knit_expand]{knitr::knit_expand()}} to apply variable insertions before the diagram is rendered by Quarto.  See \href{https://hbiostat.org/rflow/doverview.html#sec-doverview-filter/}{this} for an example.  ##' @title makegvflow
