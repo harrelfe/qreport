@@ -60,7 +60,8 @@
 ##'       tiny 311'
 ##' makegvflow(x, extracon='n12 -> n21', jj='tiger', onlyprint=TRUE)
 
-makegvflow <- function(.object., ..., direction=c('TD', 'LR'), style='filled', shape='box',
+makegvflow <- function(.object., ..., direction=c('TD', 'LR'),
+  style='filled', shape='box',
   fontsize=18, fontcolor='blue', fillcolor='azure', penwidth=0.1,
   arrowcolor='blue3', arrowsize=0.7, width=30, lbdouble=TRUE,
   extracon=NULL, file, onlyprint=FALSE) {
