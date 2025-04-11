@@ -1,5 +1,5 @@
 Version 1.0-2
-- 2025-03-29
+- 2025-04-11
 - makegvflow: new function to make graphviz hierarchical flow diagrams from plain text with LaTeX expression and variable insertions
 
 Version 1.0-1

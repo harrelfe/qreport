@@ -557,7 +557,7 @@ scplot <- function(command, cap=NULL, scap=NULL, w=5, h=4, id=NULL) {
 ##' @param prednmiss set to `TRUE` to use ordinal regression to predict the number of missing variables on an observation from the values of all the non-missing variables
 ##' @param omitpred a formula or character vector specifying a list of predictors not to use when predicting number of missing variables
 ##' @param baselabel base label for Quarto tabs made with [qreport::maketabs()]
-##' @param ... passed to [combplotp()]
+##' @param ... passed to [Hmisc::combplotp()]
 ##' @return nothing; outputs Quarto/RMarkdown text and tabs for a full report section
 ##' @author Frank Harrell
 ##' @md

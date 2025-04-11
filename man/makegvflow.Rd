@@ -10,6 +10,7 @@ makegvflow(
   direction = c("TD", "LR"),
   style = "filled",
   shape = "box",
+  font = "Times-Roman",
   fontsize = 18,
   fontcolor = "blue",
   fillcolor = "azure",
@@ -33,6 +34,8 @@ makegvflow(
 \item{style}{node style}
 
 \item{shape}{node shape}
+
+\item{font}{font for text in nodes}
 
 \item{fontsize}{text font size}
 

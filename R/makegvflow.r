@@ -16,6 +16,7 @@
 ##' @param direction direction of the flow chart, default is top-down
 ##' @param style node style
 ##' @param shape node shape
+##' @param font font for text in nodes
 ##' @param fontsize text font size
 ##' @param fontcolor text color
 ##' @param fillcolor node fill color
@@ -61,7 +62,7 @@
 ##' makegvflow(x, extracon='n12 -> n21', jj='tiger', onlyprint=TRUE)
 
 makegvflow <- function(.object., ..., direction=c('TD', 'LR'),
-  style='filled', shape='box',
+  style='filled', shape='box', font='Times-Roman',
   fontsize=18, fontcolor='blue', fillcolor='azure', penwidth=0.1,
   arrowcolor='blue3', arrowsize=0.7, width=30, lbdouble=TRUE,
   extracon=NULL, file, onlyprint=FALSE) {
@@ -155,11 +156,12 @@ makegvflow <- function(.object., ..., direction=c('TD', 'LR'),
 
   head <- paste0('digraph {
     rankdir =', direction, ';
-    node [style=', style, ', shape=', shape, ', fontsize=', fontsize,
+    node [style=', style, ', shape=', shape,
+      ', fontname="', font, '", fontsize=', fontsize,
       ', fontcolor=', fontcolor, ', fillcolor=', fillcolor, 
       ', penwidth=', penwidth, '];
     edge [color=', arrowcolor, ', arrowsize=', arrowsize, '];
-    R[label="', x[1], '"]')
+    R[label=<', x[1], '>]')
   x[1] <- head
 
   # Translate major, minor, tiny integers to a string

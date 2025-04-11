@@ -2,8 +2,11 @@ Package: qreport
 Type: Package
 Title: Statistical Reporting with 'Quarto'
 Version: 1.0-2
-Date: 2025-03-29
-Author: Frank Harrell
+Date: 2025-04-11
+Authors@R: person(given = "Frank",
+                    family = "Harrell",
+                    role = c("aut", "cre"),
+                    email = "fh@fharrell.com")
 Maintainer: Frank Harrell <fh@fharrell.com>
 Description: Provides statistical components, tables, and graphs
     that are useful in 'Quarto' and 'RMarkdown' reports and that produce 'Quarto'

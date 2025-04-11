@@ -42,7 +42,7 @@ missChk(
 
 \item{baselabel}{base label for Quarto tabs made with \code{\link[=maketabs]{maketabs()}}}
 
-\item{...}{passed to \code{\link[=combplotp]{combplotp()}}}
+\item{...}{passed to \code{\link[Hmisc:combplotp]{Hmisc::combplotp()}}}
 }
 \value{
 nothing; outputs Quarto/RMarkdown text and tabs for a full report section
