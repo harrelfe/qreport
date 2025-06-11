@@ -884,7 +884,7 @@ makemermaid <- function(.object., ..., file) {
 ##' ````
 ##' @return nothing; used to `knitr::knit_expand()` graphviz markup
 ##' @author Frank Harrell
-##' @seealso [makemermaid()]
+##' @seealso [makemermaid()], [makegvflow()], [makedot()]
 ##' @md
 makegraphviz <- function(.object., ..., file) {
   x <- strsplit(.object., '\n')[[1]]
