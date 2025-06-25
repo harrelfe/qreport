@@ -10,6 +10,7 @@ makedot(
   direction = c("TD", "LR"),
   shape = "box",
   fontsize = 24,
+  nodesetup = NULL,
   file,
   width = 30,
   onlyprint = FALSE
@@ -25,6 +26,8 @@ makedot(
 \item{shape}{node shape}
 
 \item{fontsize}{text font size}
+
+\item{nodesetup}{extra node setup to include after \code{direction}}
 
 \item{file}{name of file to hold \code{graphviz} markup after variable insertions.  Run this in Quarto using a chunk to looks like what is below, which was for \code{file='graphviz.dot'}.}
 
@@ -57,6 +60,11 @@ and allows any flow direction.
 \details{
 If a node label contains \verb{\\\\n}, all \verb{\\\\n} are replaced with \verb{\\n} and ordinary word
 wrapping is suppressed.  This is how users take control of line splitting.
+If a node label ends in \verb{//any text}, the text in \verb{any text} will be copied
+to inside the node definition after the label is closed with double quote and
+after a space is added.  This allows node colors and other attributes to be changed.
+
+Preceed single quotes in node labels with a single backslash.  Preceed double quotes with double backslashes.
 
 The function uses \code{\link[knitr:knit_expand]{knitr::knit_expand()}} to apply variable insertions before the diagram is rendered by Quarto.  See \href{https://hbiostat.org/rflow/doverview.html#sec-doverview-filter/}{this} for an example.  ##' @title makedot
 }
@@ -64,7 +72,7 @@ The function uses \code{\link[knitr:knit_expand]{knitr::knit_expand()}} to apply
 x <- '
 A:Some string of text for {{jj}}
 B:Another string of test, this one being longer and needing breaking
-C:A third string defining a node
+C:A third string defining a node//style="filled,rounded", fillcolor=lightblue
 A -> B
 B -> C [label="some text along connecting arc"]
 C -> A'
