@@ -1,5 +1,5 @@
 Version 1.1-0
-- 2025-06-10
+- 2025-09-28
 - makedot: new function to make general graphviz dot diagrams from plain text with variable insertions
 
 Version 1.0-2

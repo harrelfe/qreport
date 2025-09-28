@@ -2,11 +2,12 @@ Package: qreport
 Type: Package
 Title: Statistical Reporting with 'Quarto'
 Version: 1.1-0
-Date: 2025-06-10
+Date: 2025-09-28
 Authors@R: person(given = "Frank",
                     family = "Harrell",
                     role = c("aut", "cre"),
                     email = "fh@fharrell.com")
+Author: Frank E Harrell Jr <fh@fharrell.com>
 Maintainer: Frank Harrell <fh@fharrell.com>
 Description: Provides statistical components, tables, and graphs
     that are useful in 'Quarto' and 'RMarkdown' reports and that produce 'Quarto'
@@ -22,4 +23,4 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyLoad: Yes
 URL: https://hbiostat.org/R/qreport/
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
